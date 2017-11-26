@@ -1,4 +1,4 @@
-package com.example.aman1.songlistapplication.utils.constants;
+package com.example.aman1.songlistapplication.data.network.services.constants;
 
 /**
  * Created by aman1 on 25/11/2017.

@@ -1,14 +1,11 @@
-package com.example.aman1.songlistapplication.realm;
+package com.example.aman1.songlistapplication.data.database.realm;
 
 /**
  * Created by aman1 on 26/11/2017.
  */
 
 
-import java.net.URL;
-
 import io.realm.RealmObject;
-import retrofit2.http.Url;
 
 /**
  * RealmTrack models the metadata of a single track

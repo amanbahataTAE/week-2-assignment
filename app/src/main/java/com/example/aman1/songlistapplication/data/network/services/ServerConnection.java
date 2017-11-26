@@ -1,6 +1,7 @@
-package com.example.aman1.songlistapplication.services;
+package com.example.aman1.songlistapplication.data.network.services;
 
-import com.example.aman1.songlistapplication.utils.constants.Api_List;
+import com.example.aman1.songlistapplication.data.network.services.RequestInterface;
+import com.example.aman1.songlistapplication.data.network.services.constants.Api_List;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

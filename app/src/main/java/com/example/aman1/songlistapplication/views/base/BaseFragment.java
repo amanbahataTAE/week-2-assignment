@@ -19,10 +19,10 @@ import android.widget.Toast;
 import com.example.aman1.songlistapplication.R;
 import com.example.aman1.songlistapplication.model.TrackModel;
 import com.example.aman1.songlistapplication.model.TrackWrapper;
-import com.example.aman1.songlistapplication.realm.RealmController;
-import com.example.aman1.songlistapplication.realm.RealmTrack;
-import com.example.aman1.songlistapplication.services.RequestInterface;
-import com.example.aman1.songlistapplication.utils.constants.Api_List;
+import com.example.aman1.songlistapplication.data.database.realm.RealmController;
+import com.example.aman1.songlistapplication.data.database.realm.RealmTrack;
+import com.example.aman1.songlistapplication.data.network.services.RequestInterface;
+import com.example.aman1.songlistapplication.data.network.services.constants.Api_List;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -38,7 +38,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
-import static com.example.aman1.songlistapplication.services.ServerConnection.getServerConnection;
+import static com.example.aman1.songlistapplication.data.network.services.ServerConnection.getServerConnection;
 
 /**
  * A simple {@link Fragment} subclass.

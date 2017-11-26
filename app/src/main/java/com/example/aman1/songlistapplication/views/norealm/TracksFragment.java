@@ -15,20 +15,24 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.aman1.songlistapplication.R;
+import com.example.aman1.songlistapplication.data.AppDataManager;
 import com.example.aman1.songlistapplication.model.TrackModel;
 import com.example.aman1.songlistapplication.model.TrackWrapper;
-import com.example.aman1.songlistapplication.realm.RealmController;
-import com.example.aman1.songlistapplication.services.RequestInterface;
-import com.example.aman1.songlistapplication.utils.constants.Api_List;
+import com.example.aman1.songlistapplication.data.network.services.RequestInterface;
+import com.example.aman1.songlistapplication.data.network.services.constants.Api_List;
+import com.example.aman1.songlistapplication.views.ITrackListMvpView;
+import com.example.aman1.songlistapplication.views.TrackListPresenter;
+import com.example.aman1.songlistapplication.views.ui.base.utils.rx.AppSchedulerProvider;
 
 import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.example.aman1.songlistapplication.services.ServerConnection.getServerConnection;
+import static com.example.aman1.songlistapplication.data.network.services.ServerConnection.getServerConnection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,15 +40,16 @@ import static com.example.aman1.songlistapplication.services.ServerConnection.ge
  * from the server.
  * It implements a swipe to refresh functionality.
  */
-public class TracksFragment extends Fragment {
+public class TracksFragment extends Fragment implements ITrackListMvpView{
 
 
     private static final String TAG = "TracksFragment";
 
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+//    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mTrackRecyclerView;
     private RequestInterface requestInterface;
+    private TrackListPresenter<TracksFragment> trackListPresenter;
 
     private static final String ARG_GENRE = "genre";
 
@@ -71,53 +76,30 @@ public class TracksFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         String genre = (String) getArguments().getSerializable(ARG_GENRE);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
 
+        initiliseRecyclerView(view);
+        initialisePresenter(genre);
+        getData(genre);
 
-        requestInterface = getServerConnection();
-
-        requestInterface.getSongsList(genre, Api_List.API_SEARCH_CRITERIA)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<TrackWrapper>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(TrackWrapper value) {
-
-                        Log.i("INCOMING_DATA", value.getResultCount().toString());
-
-
-                        List<TrackModel> trackModel = value.getResults();
+  //      mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
 
 
 
-                        initiliseRecyclerView(view, trackModel);
-                        Toast.makeText(getActivity(), "Found " + value.getResultCount() + " results", Toast.LENGTH_LONG).show();
-                    }
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                mSwipeRefreshLayout.setRefreshing(false);
+//                Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
+    public void initialisePresenter(String genre){
+        trackListPresenter = new TrackListPresenter<>(new AppDataManager(), new AppSchedulerProvider(),
+                new CompositeDisposable(), genre);
 
-                    }
+        trackListPresenter.onAttach(this);
 
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     /**
@@ -126,10 +108,68 @@ public class TracksFragment extends Fragment {
      * @param trackList a collection of the available tracks
      */
 
-    public void initiliseRecyclerView(View view, List<TrackModel> trackList){
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
+    public void initiliseRecyclerView(View view){
+  //      mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
         mTrackRecyclerView = (RecyclerView) view.findViewById(R.id.track_recycler_view);
         mTrackRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mTrackRecyclerView.setAdapter(new TrackFragmentAdaptor(trackList, R.layout.list_item_tracks, getActivity()));
+    }
+
+    public void getData(String genre){
+        trackListPresenter.onCallTrackList(genre);
+    }
+
+    @Override
+    public void onFetchDataSuccess(List<TrackModel> trackModels) {
+        mTrackRecyclerView.setAdapter(new TrackFragmentAdaptor(trackModels, R.layout.list_item_tracks, getActivity()));
+    }
+
+    @Override
+    public void onFetchDataError(String message) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void openActivityOnTokenExpire() {
+
+    }
+
+    @Override
+    public void onError(int resId) {
+
+    }
+
+    @Override
+    public void onError(String message) {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showMessage(int resId) {
+
+    }
+
+    @Override
+    public boolean isNetworkConnected() {
+        return false;
+    }
+
+    @Override
+    public void hideKeyboard() {
+
     }
 }

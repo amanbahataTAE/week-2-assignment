@@ -1,7 +1,7 @@
-package com.example.aman1.songlistapplication.services;
+package com.example.aman1.songlistapplication.data.network.services;
 
 import com.example.aman1.songlistapplication.model.TrackWrapper;
-import com.example.aman1.songlistapplication.utils.constants.Api_List;
+import com.example.aman1.songlistapplication.data.network.services.constants.Api_List;
 
 
 import io.reactivex.Observable;

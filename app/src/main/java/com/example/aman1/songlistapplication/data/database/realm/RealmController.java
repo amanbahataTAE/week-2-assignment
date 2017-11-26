@@ -1,4 +1,4 @@
-package com.example.aman1.songlistapplication.realm;
+package com.example.aman1.songlistapplication.data.database.realm;
 
 import java.util.ArrayList;
 

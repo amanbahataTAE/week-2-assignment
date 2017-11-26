@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.aman1.songlistapplication.R;
-import com.example.aman1.songlistapplication.realm.RealmController;
-import com.example.aman1.songlistapplication.realm.RealmTrack;
+import com.example.aman1.songlistapplication.data.database.realm.RealmController;
+import com.example.aman1.songlistapplication.data.database.realm.RealmTrack;
 import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
