@@ -67,6 +67,12 @@ public class BaseActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * createFragment creates an new fragment by passing a genere as a parameter
+     * @param genre genre of the track
+     * @return new fragment that displays the api call return
+     */
+
     protected Fragment createFragment(String genre){
        return BaseFragment.newInstance(genre);
     }
@@ -74,4 +80,6 @@ public class BaseActivity extends AppCompatActivity{
     protected Fragment createTracksFragment(String genre){
         return TracksFragment.newInstance(genre);
     }
+
+
 }

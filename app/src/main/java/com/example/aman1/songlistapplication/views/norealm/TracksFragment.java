@@ -1,6 +1,7 @@
 package com.example.aman1.songlistapplication.views.norealm;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -46,9 +47,8 @@ public class TracksFragment extends Fragment implements ITrackListMvpView{
     private static final String TAG = "TracksFragment";
 
 
-//    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mTrackRecyclerView;
-    private RequestInterface requestInterface;
     private TrackListPresenter<TracksFragment> trackListPresenter;
 
     private static final String ARG_GENRE = "genre";
@@ -81,17 +81,14 @@ public class TracksFragment extends Fragment implements ITrackListMvpView{
         initialisePresenter(genre);
         getData(genre);
 
-  //      mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
-
-
-
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                mSwipeRefreshLayout.setRefreshing(false);
-//                Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void initialisePresenter(String genre){
@@ -105,7 +102,6 @@ public class TracksFragment extends Fragment implements ITrackListMvpView{
     /**
      * It initialises the recyclerview
      * @param view current view
-     * @param trackList a collection of the available tracks
      */
 
     public void initiliseRecyclerView(View view){

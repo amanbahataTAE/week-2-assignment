@@ -104,8 +104,6 @@ public class TrackFragmentAdaptor extends RecyclerView.Adapter<TrackFragmentAdap
             });
         }
 
-
-
         @Override
         public int getItemCount() {
             return mTracksList.size();

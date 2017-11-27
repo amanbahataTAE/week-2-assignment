@@ -23,12 +23,10 @@ public class TrackListPresenter<V extends ITrackListMvpView> extends
         BasePresenter<V> implements ItrackListMvpPresenter<V>  {
 
     private String genre;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
         public TrackListPresenter(IDataManager dataManager, SchedulerProvider schedulerProvider,
                                   CompositeDisposable compositeDisposable, String genre) {
         super(dataManager, schedulerProvider, compositeDisposable);
-
         this.genre = genre;
     }
 
@@ -52,14 +50,6 @@ public class TrackListPresenter<V extends ITrackListMvpView> extends
                                         }
                                     })
                     );
-
-//            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                @Override
-//                public void onRefresh() {
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                    Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
-//                }
-//            });
 
         }
 }
