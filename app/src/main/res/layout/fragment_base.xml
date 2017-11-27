@@ -13,7 +13,6 @@
         android:background="@color/colorMainBackground"
         tools:context="com.example.aman1.songlistapplication.views.base.BaseFragment">
 
-
     </android.support.v7.widget.RecyclerView>
 
 

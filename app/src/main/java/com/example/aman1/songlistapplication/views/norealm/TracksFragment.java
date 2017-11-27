@@ -28,6 +28,7 @@ import com.example.aman1.songlistapplication.views.ITrackListMvpView;
 import com.example.aman1.songlistapplication.views.TrackListPresenter;
 import com.example.aman1.songlistapplication.views.ui.base.utils.rx.AppSchedulerProvider;
 
+import java.net.URLConnection;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -119,8 +120,6 @@ public class TracksFragment extends Fragment implements ITrackListMvpView{
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
-
-
 
     /**
      * It initialises the recyclerview

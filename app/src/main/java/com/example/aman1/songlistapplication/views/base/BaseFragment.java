@@ -102,6 +102,7 @@ public class BaseFragment extends Fragment {
                 .subscribe(new Observer<TrackWrapper>() {
                     @Override
                     public void onSubscribe(Disposable d) {
+                        // clear realm
 
                     }
 
