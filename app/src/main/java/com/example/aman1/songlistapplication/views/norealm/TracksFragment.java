@@ -1,7 +1,10 @@
 package com.example.aman1.songlistapplication.views.norealm;
 
 
+import android.content.Context;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -79,7 +82,13 @@ public class TracksFragment extends Fragment implements ITrackListMvpView{
 
         initiliseRecyclerView(view);
         initialisePresenter(genre);
-        getData(genre);
+
+        if (isDataConnectionAvailable(getContext())) {
+            getData(genre);
+        }else {
+            Toast.makeText(getContext(), "Network connection not found", Toast.LENGTH_LONG).show();
+        }
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_to_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,6 +107,20 @@ public class TracksFragment extends Fragment implements ITrackListMvpView{
         trackListPresenter.onAttach(this);
 
     }
+
+    /**
+     * Method checks for the internet connection when fetching the data
+     * @param context activity context
+     * @return true if there is internet connection available, false otherwise
+     */
+
+    public static boolean isDataConnectionAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+
 
     /**
      * It initialises the recyclerview
